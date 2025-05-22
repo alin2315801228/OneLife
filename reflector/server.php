@@ -13,7 +13,8 @@ $stopSpreadingFraction = .10;
 $updateServerURL = "http://onehouronelife.com/updateServer/server.php";
 
 
-$reflectorLog = "/tmp/reflectorLog.txt";
+$tempDir = sys_get_temp_dir();
+$reflectorLog = $tempDir . DIRECTORY_SEPARATOR . "reflectorLog.txt";
 
 
 function logMessage( $inMessage ) {
@@ -196,7 +197,7 @@ if( $handle ) {
         }
     else {
         
-        $curNumServersFile = "/tmp/currentNumReflectorServers";
+        $curNumServersFile = $tempDir . DIRECTORY_SEPARATOR . "currentNumReflectorServers";
 
         $curNumServers = file_get_contents_safe( $curNumServersFile );
                 
@@ -229,9 +230,9 @@ if( $handle ) {
                 $serverAddresses[] = $address;
                 $serverPorts[] = $port;
             
-                $maxFile = "/tmp/" .$address . "_" . $port . "_max";
-                $currentFile = "/tmp/" .$address . "_" . $port . "_current";
-                $offlineFile = "/tmp/" .$address . "_" . $port . "_offline";
+                $maxFile = $tempDir . DIRECTORY_SEPARATOR . $address . "_" . $port . "_max";
+                $currentFile = $tempDir . DIRECTORY_SEPARATOR . $address . "_" . $port . "_current";
+                $offlineFile = $tempDir . DIRECTORY_SEPARATOR . $address . "_" . $port . "_offline";
 
                 $max = file_get_contents_safe( $maxFile );
                 $current = file_get_contents_safe( $currentFile );
@@ -464,9 +465,9 @@ function tryServer( $inAddress, $inPort, $inReportOnly,
     
     $serverGood = false;
 
-    $maxFile = "/tmp/" .$inAddress . "_" . $inPort . "_max";
-    $currentFile = "/tmp/" .$inAddress . "_" . $inPort . "_current";
-    $offlineFile = "/tmp/" .$inAddress . "_" . $inPort . "_offline";
+    $maxFile = $tempDir . DIRECTORY_SEPARATOR . $inAddress . "_" . $inPort . "_max";
+    $currentFile = $tempDir . DIRECTORY_SEPARATOR . $inAddress . "_" . $inPort . "_current";
+    $offlineFile = $tempDir . DIRECTORY_SEPARATOR . $inAddress . "_" . $inPort . "_offline";
 
     
     // suppress printed warnings from fsockopen
@@ -557,7 +558,7 @@ function tryServer( $inAddress, $inPort, $inReportOnly,
 
         if( $accepting && ! $tooFull ) {
 
-            $spreadingFile = "/tmp/" .$inAddress . "_" . $inPort . "_spreading";
+            $spreadingFile = $tempDir . DIRECTORY_SEPARATOR . $inAddress . "_" . $inPort . "_spreading";
             
             if( $spreading && ! $inIgnoreSpreading ) {
 
